@@ -61,6 +61,10 @@ exten => s,n,Hangup()
 | `TRANSCRIBED_TEXT` | Полный распознанный текст |
 | `WHISPER_STATUS` | Статус: SUCCESS, ERROR_NO_UNIQUEID, ERROR_FILE_NOT_FOUND, ERROR_TRANSCRIPTION_FAILED |
 
+## Интеграция с FreePBX
+
+Подробная инструкция по интеграции с FreePBX: [FREEPBX_INTEGRATION.md](FREEPBX_INTEGRATION.md)
+
 ## Требования
 
 - PHP 5.6+ с модулями: curl, json, mbstring
