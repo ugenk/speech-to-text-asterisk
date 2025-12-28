@@ -136,6 +136,7 @@ function transcribeAudio($audioFile, $agi) {
         'model' => WHISPER_MODEL,
         'response_format' => 'json',
         'language' => 'ru' // Russian language, change if needed
+        'prompt' => 'Extract 3 digits from the transcription and return them as a string, do not include any other text. If you cannot extract the digits, return an empty string.',
     );
     
     curl_setopt_array($ch, array(
