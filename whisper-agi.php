@@ -111,10 +111,12 @@ class AGI {
  * Send audio file to OpenAI Whisper API
  * 
  * @param string $audioFile Path to audio file
+ * @param AGI $agi AGI instance for logging
  * @return string|false Transcription text or false on error
  */
-function transcribeAudio($audioFile) {
+function transcribeAudio($audioFile, $agi) {
     if (!file_exists($audioFile)) {
+        $agi->log("File not found: $audioFile");
         return false;
     }
     
@@ -154,23 +156,24 @@ function transcribeAudio($audioFile) {
     curl_close($ch);
     
     if ($error) {
-        error_log("[Whisper AGI] cURL error: $error");
+        $agi->log("cURL error: $error");
         return false;
     }
     
     if ($httpCode !== 200) {
-        error_log("[Whisper AGI] HTTP error $httpCode: $response");
+        $agi->log("HTTP error $httpCode: $response");
         return false;
     }
     
     $data = json_decode($response, true);
-    error_log("[Whisper AGI] Response: $response");
+
+    $agi->log("API response: $response");
     
     if (isset($data['text'])) {
         return $data['text'];
     }
     
-    error_log("[Whisper AGI] Invalid response: $response");
+    $agi->log("Invalid API response: $response");
     return false;
 }
 
@@ -290,7 +293,7 @@ if ($foundFile === null) {
 $agi->log("Found recording file: $foundFile");
 
 // Transcribe audio
-$transcription = transcribeAudio($foundFile);
+$transcription = transcribeAudio($foundFile, $agi);
 
 if ($transcription === false) {
     $agi->log("ERROR: Transcription failed");
