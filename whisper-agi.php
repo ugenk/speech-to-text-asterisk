@@ -164,6 +164,7 @@ function transcribeAudio($audioFile) {
     }
     
     $data = json_decode($response, true);
+    error_log("[Whisper AGI] Response: $response");
     
     if (isset($data['text'])) {
         return $data['text'];
